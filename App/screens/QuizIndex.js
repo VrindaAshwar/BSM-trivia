@@ -3,7 +3,7 @@ import { ScrollView, StatusBar } from "react-native";
 
 import spaceQuestions from "../data/space";
 import westernsQuestions from "../data/westerns";
-import computerQuestions from "../data/computers";
+import hanumanQuestions from "../data/hanuman";
 
 import { RowItem } from "../components/RowItem";
 
@@ -33,12 +33,12 @@ export default ({ navigation }) => (
       }
     />
     <RowItem
-      name="Computers"
+      name="Hanuman"
       color="#49475B"
       onPress={() =>
         navigation.navigate("Quiz", {
-          title: "Computers",
-          questions: computerQuestions,
+          title: "Hanuman",
+          questions: hanumanQuestions,
           color: "#49475B"
         })
       }

@@ -30,7 +30,8 @@ class Quiz extends React.Component {
     totalCount: this.props.navigation.getParam("questions", []).length,
     activeQuestionIndex: 0,
     answered: false,
-    answerCorrect: false
+    answerCorrect: false,
+    btnColor: { backgroundColor: '#FFDD7C' }
   };
 
   answer = correct => {
@@ -41,8 +42,10 @@ class Quiz extends React.Component {
         if (correct) {
           nextState.correctCount = state.correctCount + 1;
           nextState.answerCorrect = true;
+          nextState.btnColor = { backgroundColor: '#00ff00' };
         } else {
           nextState.answerCorrect = false;
+          nextState.btnColor = { backgroundColor: '#ff0000' };
         }
 
         return nextState;
@@ -58,13 +61,17 @@ class Quiz extends React.Component {
       const nextIndex = state.activeQuestionIndex + 1;
 
       if (nextIndex >= state.totalCount) {
-        return this.props.navigation.popToTop();
+        this.props.navigation.navigate('QuizStatsScreen', {
+          totalQuizCount: state.totalCount,
+          correctQuizCount: state.correctCount
+        });
+      } else {
+        return {
+          activeQuestionIndex: nextIndex,
+          answered: false,
+          btnColor: { backgroundColor: '#FFDD7C' }
+        }
       }
-
-      return {
-        activeQuestionIndex: nextIndex,
-        answered: false
-      };
     });
   };
 
@@ -73,12 +80,7 @@ class Quiz extends React.Component {
     const question = questions[this.state.activeQuestionIndex];
 
     return (
-      <View
-        style={[
-          styles.container,
-          { backgroundColor: this.props.navigation.getParam("color") }
-        ]}
-      >
+      <View>
         <StatusBar barStyle="light-content" />
         <SafeAreaView style={styles.safearea}>
           <View>
@@ -90,19 +92,13 @@ class Quiz extends React.Component {
                   key={answer.id}
                   text={answer.text}
                   onPress={() => this.answer(answer.correct)}
+                  style={this.state.btnColor}
+                  correct={this.state.answerCorrect}
                 />
               ))}
             </ButtonContainer>
           </View>
-
-          <Text style={styles.text}>
-            {`${this.state.correctCount}/${this.state.totalCount}`}
-          </Text>
         </SafeAreaView>
-        <Alert
-          correct={this.state.answerCorrect}
-          visible={this.state.answered}
-        />
       </View>
     );
   }

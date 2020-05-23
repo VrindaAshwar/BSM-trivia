@@ -1,4 +1,4 @@
-import React from "react";
+/*import React from "react";
 import { View, StyleSheet, Dimensions, Image } from "react-native";
 
 const screen = Dimensions.get("window");
@@ -51,3 +51,4 @@ export const Alert = ({ correct, visible }) => {
     </View>
   );
 };
+*/
