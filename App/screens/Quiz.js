@@ -1,8 +1,8 @@
 import React from "react";
-import { View, StyleSheet, StatusBar, Text, SafeAreaView } from "react-native";
-
+import { View, StyleSheet, StatusBar, Text, SafeAreaView, TouchableOpacity } from "react-native";
 import { Button, ButtonContainer } from "../components/Button";
 import { Alert } from "../components/Alert";
+
 
 const styles = StyleSheet.create({
   container: {
@@ -21,17 +21,21 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: 100,
     justifyContent: "space-between"
+
+
   }
 });
 
+
+
 class Quiz extends React.Component {
+
   state = {
     correctCount: 0,
     totalCount: this.props.navigation.getParam("questions", []).length,
     activeQuestionIndex: 0,
     answered: false,
-    answerCorrect: false,
-    btnColor: { backgroundColor: '#FFDD7C' }
+    answerCorrect: false
   };
 
   answer = correct => {
@@ -42,16 +46,16 @@ class Quiz extends React.Component {
         if (correct) {
           nextState.correctCount = state.correctCount + 1;
           nextState.answerCorrect = true;
-          nextState.btnColor = { backgroundColor: '#00ff00' };
         } else {
           nextState.answerCorrect = false;
-          nextState.btnColor = { backgroundColor: '#ff0000' };
         }
 
         return nextState;
       },
       () => {
-        setTimeout(() => this.nextQuestion(), 750);
+        setTimeout(() => this.nextQuestion(), 1000);
+
+
       }
     );
   };
@@ -61,17 +65,13 @@ class Quiz extends React.Component {
       const nextIndex = state.activeQuestionIndex + 1;
 
       if (nextIndex >= state.totalCount) {
-        this.props.navigation.navigate('QuizStatsScreen', {
-          totalQuizCount: state.totalCount,
-          correctQuizCount: state.correctCount
-        });
-      } else {
-        return {
-          activeQuestionIndex: nextIndex,
-          answered: false,
-          btnColor: { backgroundColor: '#FFDD7C' }
-        }
+        return this.props.navigation.popToTop();
       }
+
+      return {
+        activeQuestionIndex: nextIndex,
+        answered: false
+      };
     });
   };
 
@@ -79,8 +79,14 @@ class Quiz extends React.Component {
     const questions = this.props.navigation.getParam("questions", []);
     const question = questions[this.state.activeQuestionIndex];
 
+
     return (
-      <View>
+      <View
+        style={[
+          styles.container,
+          { backgroundColor: this.props.navigation.getParam("color") }
+        ]}
+      >
         <StatusBar barStyle="light-content" />
         <SafeAreaView style={styles.safearea}>
           <View>
@@ -92,13 +98,29 @@ class Quiz extends React.Component {
                   key={answer.id}
                   text={answer.text}
                   onPress={() => this.answer(answer.correct)}
-                  style={this.state.btnColor}
-                  correct={this.state.answerCorrect}
+                  style={{
+                    backgroundColor:
+                      this.state.answered
+                        ? answer.correct
+                          ? "#90ee90"
+                          : "#ff6f61"
+                        : "rgba(255,255, 255,0.3)"
+                  }}
                 />
+
               ))}
             </ButtonContainer>
           </View>
+
+
+          <Text style={styles.text}>
+            {`${this.state.correctCount}/${this.state.totalCount}`}
+          </Text>
         </SafeAreaView>
+        <Alert
+          correct={this.state.answerCorrect}
+          visible={this.state.answered}
+        />
       </View>
     );
   }

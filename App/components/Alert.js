@@ -1,4 +1,4 @@
-/*import React from "react";
+import React from "react";
 import { View, StyleSheet, Dimensions, Image } from "react-native";
 
 const screen = Dimensions.get("window");
@@ -6,7 +6,7 @@ const screen = Dimensions.get("window");
 const styles = StyleSheet.create({
   container: {
     position: "absolute",
-    top: 0,
+    top: "50%",
     bottom: 0,
     left: 0,
     right: 0,
@@ -51,4 +51,3 @@ export const Alert = ({ correct, visible }) => {
     </View>
   );
 };
-*/
