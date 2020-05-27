@@ -1,7 +1,6 @@
 import React from "react";
 import { View, StyleSheet, StatusBar, Text, SafeAreaView, TouchableOpacity } from "react-native";
 import { Button, ButtonContainer } from "../components/Button";
-import { Alert } from "../components/Alert";
 
 
 const styles = StyleSheet.create({
@@ -117,10 +116,6 @@ class Quiz extends React.Component {
             {`${this.state.correctCount}/${this.state.totalCount}`}
           </Text>
         </SafeAreaView>
-        <Alert
-          correct={this.state.answerCorrect}
-          visible={this.state.answered}
-        />
       </View>
     );
   }
