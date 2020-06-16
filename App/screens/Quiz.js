@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, StatusBar, Text, SafeAreaView, TouchableOpacity } from "react-native";
+import { View, StyleSheet, StatusBar, Text, SafeAreaView, TouchableOpacity, ImageBackground, Image } from "react-native";
 import { Button, ButtonContainer } from "../components/Button";
 
 
@@ -23,6 +23,18 @@ const styles = StyleSheet.create({
 
 
   }
+});
+
+const styles2 = StyleSheet.create({
+  backgroundImage: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
+    opacity: 0.3
+  },
+
 });
 
 
@@ -86,6 +98,10 @@ class Quiz extends React.Component {
           { backgroundColor: this.props.navigation.getParam("color") }
         ]}
       >
+        <ImageBackground
+          style={styles2.backgroundImage}
+          source={require('../assets/hanuman.jpg')}
+        />
         <StatusBar barStyle="light-content" />
         <SafeAreaView style={styles.safearea}>
           <View>
